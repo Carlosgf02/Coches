@@ -21,12 +21,12 @@ const app = express();
 app.use(express.json());
 
 // Configurar CORS para admitir el origen del frontend en desarrollo
-app.use(
-  cors({
-    //origin: "http://localhost:5173", // Permitir el frontend en desarrollo
-    origin: "http://localhost:8081",
-  })
-);
+// app.use(
+//   cors({
+//     //origin: "http://localhost:5173", // Permitir el frontend en desarrollo
+//     origin: "http://localhost:8081",
+//   })
+// );
 
 // Configurar rutas de la API Rest
 app.use("/api/marcas", marcaRoutes);
