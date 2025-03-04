@@ -1,20 +1,25 @@
 const { Sequelize } = require("sequelize");
-const { db } = require("../config/config"); // Importamos la configuración de la BD
+const { db } = require("../config/config");
 
-// Instanciar sequelize para conectar a MySQL
 const sequelize = new Sequelize(db.name, db.user, db.password, {
   host: db.host,
-  port: db.port,
+  port: db.port || 3306,
   dialect: "mysql",
-  logging: (msg) => {
-    if (msg.includes("ERROR")) {
-      console.error("Error de Sequelize:", msg);
-    }
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
   },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
+  logging: console.log,
 });
 
-
-// Probar la conexión
 (async () => {
   try {
     await sequelize.authenticate();
@@ -24,4 +29,4 @@ const sequelize = new Sequelize(db.name, db.user, db.password, {
   }
 })();
 
-module.exports = sequelize; // Exportar la instancia de Sequelize
+module.exports = sequelize;
