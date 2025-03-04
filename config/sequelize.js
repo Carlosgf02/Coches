@@ -6,12 +6,19 @@ const sequelize = new Sequelize(db.name, db.user, db.password, {
   host: db.host,
   port: db.port,
   dialect: "mysql",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
   logging: (msg) => {
     if (msg.includes("ERROR")) {
       console.error("Error de Sequelize:", msg);
     }
   },
 });
+
 
 // Probar la conexión
 (async () => {
