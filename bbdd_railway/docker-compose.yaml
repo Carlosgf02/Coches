@@ -4,9 +4,9 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - 8080:80
+      - 8081:80
     environment:
-      - PMA_HOST=mysql.railway.internal
-      - PMA_PORT=3306
+      - PMA_HOST=yamanote.proxy.rlwy.net
+      - PMA_PORT=37086
       - PMA_USER=root
       - PMA_PASSWORD=FtAnRejlbNVObUSdmmbDfySRXjdNbNlt

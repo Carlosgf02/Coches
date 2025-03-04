@@ -21,7 +21,6 @@ const sequelize = new Sequelize(
     },
   }
 );
-//aaaaaaaaaaaa
 // Probar la conexión
 (async () => {
   try {

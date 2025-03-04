@@ -1,5 +1,6 @@
 const request = require("supertest");
 const app = require("../index"); // Importar la app de Express
+const sequelize = require("../config/sequelize");
 
 describe("🚗 Pruebas sobre la API de Modelos (sin autenticación)", () => {
   let modeloId = "";
@@ -72,4 +73,8 @@ describe("🚗 Pruebas sobre la API de Modelos (sin autenticación)", () => {
     expect(res.statusCode).toBe(404);
     expect(res.body.ok).toBe(false);
   });
+
+  afterAll(async () =>{
+    await sequelize.close();
+  })
 });
