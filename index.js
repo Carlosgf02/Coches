@@ -24,36 +24,39 @@ const app = express();
 // Configurar middleware para analizar JSON en las solicitudes
 app.use(express.json());
 
-// Configurar CORS para admitir cualquier origen
-const allowedOrigins = [
-  "http://localhost:3000",  // Para desarrollo local
-  "https://coches-production.up.railway.app", // Para producción
-];
+if (process.env.NODE_ENV !== "production") {
+  // Configurar CORS para admitir cualquier origen
+  const allowedOrigins = [
+    "http://localhost:3000", // Para desarrollo local
+    "https://coches-production.up.railway.app", // Para producción
+  ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Permitir solicitudes sin origen (por ejemplo, desde Postman)
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("CORS no permitido"));
-    },
-    credentials: true, // Permite envío de cookies y headers autenticados
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  })
-);
-
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        // Permitir solicitudes sin origen (por ejemplo, desde Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+        return callback(new Error("CORS no permitido"));
+      },
+      credentials: true, // Permite envío de cookies y headers autenticados
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      allowedHeaders:
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    })
+  );
+}
 // Habilitar el análisis de cookies
-app.use(cookieParser());
+// app.use(cookieParser());
 
-// Configurar el middleware para servir archivos estáticos desde el directorio public
-app.use(express.static(path.join(__dirname, "public")));
 
 // Rutas del API
 app.use("/api/marca", marcaRoutes);
 app.use("/api/modelo", modeloRoutes);
+
+// Configurar el middleware para servir archivos estáticos desde el directorio public
+app.use(express.static(path.join(__dirname, "public")));
 
 // Ruta para manejar cualquier solicitud no coincidente y devolver el frontend (index.html)
 app.get("*", (req, res) => {
