@@ -52,8 +52,8 @@ if (process.env.NODE_ENV !== "production") {
 
 
 // Rutas del API
-app.use("/api/marca", marcaRoutes);
-app.use("/api/modelo", modeloRoutes);
+app.use("/api/marcas", marcaRoutes);
+app.use("/api/modelos", modeloRoutes);
 
 // Configurar el middleware para servir archivos estáticos desde el directorio public
 app.use(express.static(path.join(__dirname, "public")));
